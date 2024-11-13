@@ -44,9 +44,9 @@ CLASSIFIERS = [
 ]
 
 setup(
-    name="django-mail-model-template",
+    name="django_mail_model_template",
     version=VERSION,
-    packages=find_packages(exclude=("tests", "tests.*")),
+    packages=find_packages(exclude=["tests*", "__pycache__", "*.pyc"]),
     include_package_data=True,
     author="Minoru Yokoo",
     author_email="yokoo@dreami.jp",
