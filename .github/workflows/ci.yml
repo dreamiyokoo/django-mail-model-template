@@ -3,6 +3,7 @@ name: Django Mail Model Template CI
 on:
   push:
     branches: [ main ]
+    tags: [ 'v*.*.*' ]  # これを追加。バージョンタグに反応。
   pull_request:
     branches: [ main ]
   release:
