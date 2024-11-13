@@ -10,17 +10,20 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.11]
 
     steps:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-          python-version: '3.10'
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: |
@@ -36,14 +39,18 @@ jobs:
     needs: test
     if: startsWith(github.event.ref, 'refs/tags/')
 
+    strategy:
+      matrix:
+        python-version: [3.11]
+
     steps:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-          python-version: '3.10'
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: |
