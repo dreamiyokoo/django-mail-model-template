@@ -1,13 +1,17 @@
-name: Django Mail Model Template CI
+name: Publish Python Package
 
 on:
   push:
     branches: [ main ]
-    tags: [ 'v*.*.*' ]  # これを追加。バージョンタグに反応。
+    tags: [ 'v*.*.*' ]
   pull_request:
     branches: [ main ]
   release:
-    types: [created]
+    types: [ created ]
+
+permissions:
+  contents: read
+  id-token: write  # OIDCに必要
 
 jobs:
   test:
@@ -15,7 +19,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: [ '3.11' ]
 
     steps:
       - name: Check out code
@@ -40,18 +44,14 @@ jobs:
     needs: test
     if: startsWith(github.event.ref, 'refs/tags/')
 
-    strategy:
-      matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
-
     steps:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.11
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.11
 
       - name: Install dependencies
         run: |
@@ -66,6 +66,7 @@ jobs:
         env:
           TWINE_REPOSITORY_URL: https://upload.pypi.org/legacy/
           TWINE_USERNAME: __token__
+          # `secrets.GITHUB_TOKEN` は GitHub Actions によって自動的に提供される
           TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python -m pip install twine
