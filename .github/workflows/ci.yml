@@ -62,9 +62,11 @@ jobs:
         run: |
           python setup.py sdist bdist_wheel
 
-      - name: Publish package
+      - name: Publish package to PyPI using OIDC
         env:
-          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+          TWINE_REPOSITORY_URL: https://upload.pypi.org/legacy/
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          python -m pip install twine
           twine upload dist/*
