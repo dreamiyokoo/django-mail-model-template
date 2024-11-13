@@ -1,1 +1,6 @@
--r tox-requirements.txt
+Django>=3.2
+pytest
+pytest-django
+pytest-pythonpath
+tox
+factory_boy
