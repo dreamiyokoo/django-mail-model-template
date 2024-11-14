@@ -3,10 +3,10 @@ import sys
 from setuptools import setup, find_packages
 
 DESCRIPTION = "Manage email templates in DB with django"
-VERSION = "0.0.2"
+VERSION = "0.0.7"
 LONG_DESCRIPTION = None
 try:
-    LONG_DESCRIPTION = open("README.rst").read()
+    LONG_DESCRIPTION = open("README.md").read()
 except:
     pass
 
@@ -28,7 +28,8 @@ extras_require = {
 
 # python setup.py publish
 if sys.argv[-1] == "publish":
-    os.system("python setup.py sdist upload")
+    os.system("python setup.py sdist bdist_wheel")
+    os.system("twine upload dist/*")
     sys.exit()
 
 CLASSIFIERS = [
@@ -42,7 +43,6 @@ CLASSIFIERS = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Framework :: Django",
 ]
-
 setup(
     name="django_mail_model_template",
     version=VERSION,
@@ -50,11 +50,11 @@ setup(
     include_package_data=True,
     author="Minoru Yokoo",
     author_email="yokoo@dreami.jp",
-    url="https://github.com/dreamiyokoo/djano-mail-model-template",
+    url="https://github.com/dreamiyokoo/django-mail-model-template",
     license="MIT",
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
-    long_description_content_type="text/x-rst",
+    long_description_content_type="text/markdown",
     platforms=["any"],
     classifiers=CLASSIFIERS,
     install_requires=install_requires,
