@@ -6,7 +6,7 @@ DESCRIPTION = "Manage email templates in DB with django"
 VERSION = "0.0.7"
 LONG_DESCRIPTION = None
 try:
-    LONG_DESCRIPTION = open("README.rst").read()
+    LONG_DESCRIPTION = open("README.md").read()
 except:
     pass
 
@@ -55,7 +55,7 @@ setup(
     license="MIT",
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
-    long_description_content_type="text/x-rst",
+    long_description_content_type="text/markdown",
     platforms=["any"],
     classifiers=CLASSIFIERS,
     install_requires=install_requires,
