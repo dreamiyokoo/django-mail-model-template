@@ -1,7 +1,7 @@
 # INSTALL
 
 ```shell
-pip install git+https://github.com/dreamiyokoo/djano-mail-model-template.git
+pip install git+https://github.com/dreamiyokoo/django-mail-model-template.git
 ```
 
 # Django settings
