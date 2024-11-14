@@ -2,12 +2,10 @@ name: Publish Python Package
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
     tags: [ 'v*.*.*' ]
   pull_request:
-    branches: [ main ]
-  release:
-    types: [ created ]
+    branches: [ main, develop ]
 
 
 permissions:
