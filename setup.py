@@ -43,7 +43,6 @@ CLASSIFIERS = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Framework :: Django",
 ]
-
 setup(
     name="django_mail_model_template",
     version=VERSION,
@@ -51,7 +50,7 @@ setup(
     include_package_data=True,
     author="Minoru Yokoo",
     author_email="yokoo@dreami.jp",
-    url="https://github.com/dreamiyokoo/djano-mail-model-template",
+    url="https://github.com/dreamiyokoo/django-mail-model-template",
     license="MIT",
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,

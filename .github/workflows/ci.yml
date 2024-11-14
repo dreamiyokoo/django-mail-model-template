@@ -73,7 +73,7 @@ jobs:
 
     environment:
       name: testpypi
-      url: https://test.pypi.org/project/djano-mail-model-template/
+      url: https://test.pypi.org/project/django-mail-model-template/
 
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
