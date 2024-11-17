@@ -13,9 +13,9 @@ class MailTemplateTest(TestCase):
         )
         params = {"name": "yamada"}
         result = get_mail_template("main", params)
-        self.assertEqual(result["subject"], "main subject yamada")
-        self.assertEqual(result["body"], "main body yamada")
-        self.assertEqual(result["html"], "<p>main html yamada</p>")
+        self.assertEqual(result.subject, "main subject yamada")
+        self.assertEqual(result.body, "main body yamada")
+        self.assertEqual(result.html, "<p>main html yamada</p>")
 
     def test_send_html_mail(self):
         MailTemplate.objects.create(
@@ -28,8 +28,9 @@ class MailTemplateTest(TestCase):
         from_email = "from@example.com"
         to_email_list = ["to@example.com"]
 
-        with self.assertLogs('django.core.mail', level='INFO') as cm:
+        with self.assertLogs('django_mail_model_template', level='INFO') as cm:
             send_html_mail("html_mail", params, from_email, to_email_list)
+        send_html_mail("html_mail", params, from_email, to_email_list)
 
         self.assertIn("HTML subject yamada", cm.output[0])
         self.assertIn("<p>HTML yamada</p>", cm.output[0])
@@ -45,7 +46,7 @@ class MailTemplateTest(TestCase):
         from_email = "from@example.com"
         to_email_list = ["to@example.com"]
 
-        with self.assertLogs('django.core.mail', level='INFO') as cm:
+        with self.assertLogs('django_mail_model_template', level='INFO') as cm:
             send_text_mail("text_mail", params, from_email, to_email_list)
 
         self.assertIn("Text subject yamada", cm.output[0])

@@ -43,7 +43,7 @@ LOGGING = {
         },
     },
     'loggers': {
-        'django.core.mail': {
+        'django_mail_model_template': {
             'handlers': ['console'],
             'level': 'INFO',
             'propagate': True,
