@@ -45,7 +45,7 @@ class MailTemplateTest(TestCase):
         from_email = "from@example.com"
         to_email_list = ["to@example.com"]
 
-        with self.assertLogs('django.core.mail', level='DEBUG') as cm:
+        with self.assertLogs('django.core.mail', level='INFO') as cm:
             send_text_mail("text_mail", params, from_email, to_email_list)
 
         self.assertIn("Text subject yamada", cm.output[0])

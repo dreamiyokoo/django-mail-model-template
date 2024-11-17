@@ -21,7 +21,6 @@ def get_mail_template(name: str, params: Dict[str, Any]) -> Dict[str, str]:
 
 def send_html_mail(name: str, params: Dict[str, Any], from_email: str, to_email_list: list[str]):
     mail_template = get_mail_template(name, params)
-    logger.debug(mail_template)
     email = EmailMessage(
         mail_template["subject"],
         mail_template["html"],
@@ -34,7 +33,6 @@ def send_html_mail(name: str, params: Dict[str, Any], from_email: str, to_email_
 
 def send_text_mail(name: str, params: Dict[str, Any], from_email: str, to_email_list: list[str]):
     mail_template = get_mail_template(name, params)
-    logger.debug(mail_template)
     email = EmailMessage(
         mail_template["subject"],
         mail_template["body"],
