@@ -65,3 +65,19 @@ from django_mail_model_template.utils import get_mail_template
 params = {"name": "yamada"}
 result = get_mail_template("main", params)
 ```
+
+## send html mail
+
+```python
+from django_mail_model_template.utils import send_html_mail
+params = {"name": "yamada"}
+send_html_mail("main", params, "from@example.com",["to@example.com"])
+```
+
+## send text mail
+
+```python
+from django_mail_model_template.utils import send_text_mail
+params = {"name": "yamada"}
+send_text_mail("main", params, "from@example.com",["to@example.com"])
+```
