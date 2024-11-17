@@ -1,13 +1,15 @@
+import logging
 from .models import MailTemplate
 from typing import Dict, Any
 
 from django.template import Context, Template
 from django.core.mail import EmailMessage
-from django.conf import settings
 
+logger = logging.getLogger(__name__)
 
 def get_mail_template(name: str, params: Dict[str, Any]) -> Dict[str, str]:
     mail_template = MailTemplate.objects.get(name=name)
+    logger.debug(mail_template)
     context = Context(params)
     return {
         "name": mail_template.name,
@@ -19,6 +21,7 @@ def get_mail_template(name: str, params: Dict[str, Any]) -> Dict[str, str]:
 
 def send_html_mail(name: str, params: Dict[str, Any], from_email: str, to_email_list: list[str]):
     mail_template = get_mail_template(name, params)
+    logger.debug(mail_template)
     email = EmailMessage(
         mail_template["subject"],
         mail_template["html"],
@@ -31,6 +34,7 @@ def send_html_mail(name: str, params: Dict[str, Any], from_email: str, to_email_
 
 def send_text_mail(name: str, params: Dict[str, Any], from_email: str, to_email_list: list[str]):
     mail_template = get_mail_template(name, params)
+    logger.debug(mail_template)
     email = EmailMessage(
         mail_template["subject"],
         mail_template["body"],
