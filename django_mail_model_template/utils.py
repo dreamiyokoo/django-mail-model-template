@@ -4,6 +4,7 @@ from typing import Dict, Any
 
 from django.template import Context, Template
 from django.core.mail import EmailMessage
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -18,8 +19,28 @@ class MailTemplateParams:
     html: str
 
 
-def get_mail_template(name: str, params: Dict[str, Any]) -> MailTemplateParams:
-    mail_template = MailTemplate.objects.get(name=name)
+def get_mail_template(
+    name: str, params: Dict[str, Any], language=None
+) -> MailTemplateParams:
+    if language is None:
+        language = settings.LANGUAGE_CODE
+
+    try:
+        mail_template = MailTemplate.objects.get(
+            name=name,
+            language=language,
+        )
+    except MailTemplate.DoesNotExist:
+        try:
+            mail_template = MailTemplate.objects.get(
+                name=name,
+                language=settings.LANGUAGE_CODE,
+            )
+        except MailTemplate.DoesNotExist:
+            raise MailTemplate.DoesNotExist(
+                "The requested MailTemplate does not exist."
+            )
+
     context = Context(params)
     rendered_params = MailTemplateParams(
         name=mail_template.name,
@@ -30,8 +51,15 @@ def get_mail_template(name: str, params: Dict[str, Any]) -> MailTemplateParams:
     logger.info(rendered_params)
     return rendered_params
 
-def send_html_mail(name: str, params: Dict[str, Any], from_email: str, to_email_list: list[str]):
-    mail_template = get_mail_template(name, params)
+
+def send_html_mail(
+    name: str,
+    params: Dict[str, Any],
+    from_email: str,
+    to_email_list: list[str],
+    language=None,
+):
+    mail_template = get_mail_template(name, params, language)
     email = EmailMessage(
         mail_template.subject,
         mail_template.html,
@@ -42,8 +70,14 @@ def send_html_mail(name: str, params: Dict[str, Any], from_email: str, to_email_
     email.send()
 
 
-def send_text_mail(name: str, params: Dict[str, Any], from_email: str, to_email_list: list[str]):
-    mail_template = get_mail_template(name, params)
+def send_text_mail(
+    name: str,
+    params: Dict[str, Any],
+    from_email: str,
+    to_email_list: list[str],
+    language=None,
+):
+    mail_template = get_mail_template(name, params, language)
     email = EmailMessage(
         mail_template.subject,
         mail_template.body,

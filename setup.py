@@ -3,7 +3,7 @@ import sys
 from setuptools import setup, find_packages
 
 DESCRIPTION = "Manage email templates in DB with django"
-VERSION = "0.0.12"
+VERSION = "0.1.0"
 LONG_DESCRIPTION = None
 try:
     LONG_DESCRIPTION = open("README.md").read()

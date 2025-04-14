@@ -1,15 +1,15 @@
 # INSTALL
 
 ```shell
-pip install git+https://github.com/dreamiyokoo/django-mail-model-template.git
+pip install django-mail-model-template
 ```
 
 # Django settings
 
 ```python
 INSTALLED_APPS = [
-...
-'django_mail_model_template',
+    ...
+    'django_mail_model_template',
 ]
 ```
 
@@ -81,3 +81,77 @@ from django_mail_model_template.utils import send_text_mail
 params = {"name": "yamada"}
 send_text_mail("main", params, "from@example.com",["to@example.com"])
 ```
+
+# Multi-language Support
+
+## Setting up templates for different languages
+
+You can create templates for different languages by specifying the `language` field:
+
+```python
+from django_mail_model_template.models import MailTemplate
+
+# English template
+MailTemplate.objects.create(
+    name="welcome",
+    subject="Welcome {{ name }}",
+    body="Hello {{ name }}, welcome to our service!",
+    html="<p>Hello {{ name }}, welcome to our service!</p>",
+    language="en"  # ISO 639-1 language code
+)
+
+# Japanese template
+MailTemplate.objects.create(
+    name="welcome",
+    subject="ようこそ {{ name }}さん",
+    body="こんにちは、{{ name }}さん。当サービスへようこそ！",
+    html="<p>こんにちは、{{ name }}さん。当サービスへようこそ！</p>",
+    language="ja"
+)
+```
+
+## Using templates with language specification
+
+You can specify the language when retrieving templates:
+
+```python
+from django_mail_model_template.utils import get_mail_template
+
+# Get template in English
+params = {"name": "John"}
+result = get_mail_template("welcome", params, language="en")
+
+# Get template in Japanese
+params = {"name": "山田"}
+result = get_mail_template("welcome", params, language="ja")
+```
+
+If a template is not available in the specified language, it will fall back to the default language (as specified in `settings.LANGUAGE_CODE`), or to English if that's not available.
+
+# Important Note About Return Values
+
+As of version X.X.X, `get_mail_template()` now returns a `MailTemplateParams` object instead of a dictionary. Access the values using attribute notation instead of dictionary notation:
+
+```python
+# Old (dictionary) syntax - NO LONGER WORKS
+result = get_mail_template("welcome", params)
+subject = result["subject"]
+body = result["body"]
+
+# New (object) syntax - CURRENT USAGE
+result = get_mail_template("welcome", params)
+subject = result.subject
+body = result.body
+html = result.html
+name = result.name
+```
+
+The `MailTemplateParams` object has the following attributes:
+- `name`: The name of the template
+- `subject`: The rendered subject line
+- `body`: The rendered plain text body
+- `html`: The rendered HTML body
+
+# Model Configuration Note
+
+When using this library with multiple languages, ensure your `MailTemplate` model does not have `unique=True` on the `name` field, as this would prevent creating the same template name in different languages. The model should use `unique_together` for the `name` and `language` fields instead.
