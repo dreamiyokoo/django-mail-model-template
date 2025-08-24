@@ -5,7 +5,7 @@ from django.conf import settings
 class MailTemplate(models.Model):
     name = models.CharField(max_length=255)
     language = models.CharField(
-        max_length=10, default=settings.LANGUAGE_CODE
+        max_length=10, default="ja"
     )  # ISO 639-1/IETF
     subject = models.CharField(max_length=255)
     body = models.TextField()
